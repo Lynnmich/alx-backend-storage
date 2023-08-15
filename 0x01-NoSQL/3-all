@@ -1,3 +1,3 @@
 //A  script that lists all documents in the collection school
 
-db.collection.find(school)
+db.school.find()
