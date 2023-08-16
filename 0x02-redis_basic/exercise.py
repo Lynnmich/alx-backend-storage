@@ -3,6 +3,8 @@
 Create a Cache class. In the __init__ method, store an instance of the Redis
 """
 import redis
+import sys
+import uuid
 
 
 class Cache:
@@ -16,3 +18,15 @@ class Cache:
         key = uuid.uuid4()
         self._redis.set(str(key), data)
         return str(key)
+    def get(self, key: str, fn: Optional[Callable] = None) ->\
+            Union[str, bytes, int, float]:
+        """retieves value from server, converts it to the desired format"""
+        return fn(self._redis.get(key)) if fn else self._redis.get(key)
+
+    def get_int(self, data_bytes: bytes) -> int:
+        """converts data bytes from server to int"""
+        return int.from_bytes(data_bytes, sys.byteorder)
+
+    def get_str(self, data_bytes: bytes) -> str:
+        """converts data bytes from server to str"""
+        return data_bytes.decode('utf-8')
