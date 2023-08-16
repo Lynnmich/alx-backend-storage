@@ -5,6 +5,7 @@ Create a Cache class. In the __init__ method, store an instance of the Redis
 import redis
 import sys
 import uuid
+from typing import Any, Callable, Union
 
 
 class Cache:
