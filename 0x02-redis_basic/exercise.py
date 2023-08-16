@@ -13,11 +13,13 @@ class Cache:
         """ Instance of Cache class """
         self._redis = redis.Redis()
         self._redis.flushdb()
+
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """the method takes a data argument and returns a string"""
         key = uuid.uuid4()
         self._redis.set(str(key), data)
         return str(key)
+
     def get(self, key: str, fn: Optional[Callable] = None) ->\
             Union[str, bytes, int, float]:
         """retieves value from server, converts it to the desired format"""
