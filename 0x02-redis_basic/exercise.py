@@ -8,6 +8,17 @@ import uuid
 from typing import Any, Callable, Union
 
 
+
+def count_calls(method: Callable) -> Callable:
+    """Tracks the number of calls made to a method in a Cache class"""
+    @wraps(method)
+    def callcounter(self, *args, **kwargs) -> Any:
+        """Invokes the given method after incrementing its call counter"""
+        if isinstance(self._redis, redis.Redis):
+            self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
+    return callcounter
+
 class Cache:
     """Create Cache class"""
     def __init__(self) -> None:
